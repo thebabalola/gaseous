@@ -52,13 +52,13 @@
 - [ ] Comparison: with vs without paymaster
 
 ## 🔒 Security & Testing
-- [ ] Unit tests for all contracts
-- [ ] Integration tests with EntryPoint
+- [x] Unit tests for all contracts
+- [x] Integration tests with EntryPoint
 - [ ] Bundler integration tests
-- [ ] Spending limit edge cases
-- [ ] Reentrancy protection review
-- [ ] Access control testing
-- [ ] Signature validation tests
+- [x] Spending limit edge cases
+- [x] Reentrancy protection review
+- [x] Access control testing
+- [x] Signature validation tests
 
 ## 📚 Documentation
 - [ ] Smart contract API documentation
