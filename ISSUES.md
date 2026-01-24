@@ -2,15 +2,15 @@
 
 ## 🚀 High Priority
 
-### Smart Contracts
-- [ ] Write comprehensive tests for GaslessBasePaymaster
-- [ ] Write tests for SimpleAccount
-- [ ] Write tests for SimpleAccountFactory
-- [ ] Test spending limit enforcement
-- [ ] Test whitelist/blacklist functionality
-- [ ] Test UserOperation validation flow
-- [ ] Gas optimization review
-- [ ] Security audit preparation
+### Smart Contracts (Completed)
+- [x] Write comprehensive tests for GaslessBasePaymaster
+- [x] Write tests for SimpleAccount
+- [x] Write tests for SimpleAccountFactory
+- [x] Test spending limit enforcement
+- [x] Test whitelist/blacklist functionality
+- [x] Test UserOperation validation flow (Basic)
+- [x] Gas optimization review
+- [x] Security audit preparation (Initial)
 
 ### Frontend
 - [ ] Set up Next.js project
