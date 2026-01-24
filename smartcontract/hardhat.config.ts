@@ -7,9 +7,9 @@ const config: HardhatUserConfig = {
         settings: {
             optimizer: {
                 enabled: true,
-                runs: 1000000, // High optimization for AA contracts
+                runs: 200,
             },
-            viaIR: true, // Enable IR-based code generation for better optimization
+            viaIR: false,
         },
     },
     networks: {

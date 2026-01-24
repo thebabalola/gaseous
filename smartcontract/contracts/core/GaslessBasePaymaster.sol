@@ -19,7 +19,7 @@ import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
  * Perfect for onboarding users in Africa and emerging markets where
  * gas fees are a barrier to Web3 adoption.
  */
-contract GaslessBasePaymaster is BasePaymaster, Ownable {
+contract GaslessBasePaymaster is BasePaymaster {
     using ECDSA for bytes32;
 
     // Sponsorship limits
@@ -60,7 +60,8 @@ contract GaslessBasePaymaster is BasePaymaster, Ownable {
     constructor(
         IEntryPoint _entryPoint,
         address _owner
-    ) BasePaymaster(_entryPoint) Ownable(_owner) {
+    ) BasePaymaster(_entryPoint) {
+        _transferOwnership(_owner);
         // Default limits (can be updated by owner)
         dailySpendingLimit = 0.1 ether; // 0.1 ETH per day
         monthlySpendingLimit = 1 ether; // 1 ETH per month
@@ -129,9 +130,11 @@ contract GaslessBasePaymaster is BasePaymaster, Ownable {
             abi.decode(context, (address, uint256, uint256, uint256));
 
         // Update spending trackers
-        dailySpent[currentDay] += actualGasCost;
-        monthlySpent[currentMonth] += actualGasCost;
-        userSpent[sender] += actualGasCost;
+        unchecked {
+            dailySpent[currentDay] += actualGasCost;
+            monthlySpent[currentMonth] += actualGasCost;
+            userSpent[sender] += actualGasCost;
+        }
 
         emit SponsoredUserOp(sender, actualGasCost, actualGasCost / tx.gasprice);
     }
@@ -145,8 +148,9 @@ contract GaslessBasePaymaster is BasePaymaster, Ownable {
         if (userOp.callData.length < 68) return false;
         
         address target;
+        bytes calldata callData = userOp.callData;
         assembly {
-            target := shr(96, calldataload(add(userOp.callData.offset, 16)))
+            target := shr(96, calldataload(add(callData.offset, 16)))
         }
         
         return whitelistedContracts[target];
@@ -204,43 +208,6 @@ contract GaslessBasePaymaster is BasePaymaster, Ownable {
      */
     function setPaused(bool _paused) external onlyOwner {
         paused = _paused;
-    }
-
-    /**
-     * @notice Deposit ETH to stake in EntryPoint
-     */
-    function deposit() external payable {
-        entryPoint.depositTo{value: msg.value}(address(this));
-        emit Deposited(msg.sender, msg.value);
-    }
-
-    /**
-     * @notice Withdraw ETH from EntryPoint
-     */
-    function withdrawTo(address payable recipient, uint256 amount) external onlyOwner {
-        entryPoint.withdrawTo(recipient, amount);
-        emit Withdrawn(recipient, amount);
-    }
-
-    /**
-     * @notice Add stake to EntryPoint
-     */
-    function addStake(uint32 unstakeDelaySec) external payable onlyOwner {
-        entryPoint.addStake{value: msg.value}(unstakeDelaySec);
-    }
-
-    /**
-     * @notice Unlock stake from EntryPoint
-     */
-    function unlockStake() external onlyOwner {
-        entryPoint.unlockStake();
-    }
-
-    /**
-     * @notice Withdraw stake from EntryPoint
-     */
-    function withdrawStake(address payable recipient) external onlyOwner {
-        entryPoint.withdrawStake(recipient);
     }
 
     // View functions
