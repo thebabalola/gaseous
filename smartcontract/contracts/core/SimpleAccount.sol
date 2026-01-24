@@ -3,6 +3,9 @@ pragma solidity ^0.8.24;
 
 import "@account-abstraction/contracts/core/BaseAccount.sol";
 import "@account-abstraction/contracts/samples/callback/TokenCallbackHandler.sol";
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 /**
  * @title SimpleAccount
@@ -15,7 +18,8 @@ import "@account-abstraction/contracts/samples/callback/TokenCallbackHandler.sol
  * - Can execute arbitrary transactions
  * - Validates signatures from the owner
  */
-contract SimpleAccount is BaseAccount, TokenCallbackHandler {
+contract SimpleAccount is BaseAccount, TokenCallbackHandler, UUPSUpgradeable, Initializable {
+    using ECDSA for bytes32;
     address public owner;
 
     IEntryPoint private immutable _entryPoint;
@@ -43,6 +47,10 @@ contract SimpleAccount is BaseAccount, TokenCallbackHandler {
     function _onlyOwner() internal view {
         //directly from EOA owner, or through the account itself (which gets redirected through execute())
         require(msg.sender == owner || msg.sender == address(this), "only owner");
+    }
+
+    function _requireFromEntryPointOrOwner() internal view {
+        require(msg.sender == address(entryPoint()) || msg.sender == owner, "account: not Owner or EntryPoint");
     }
 
     /**
