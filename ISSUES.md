@@ -15,8 +15,8 @@
 ### Frontend
 - [ ] Set up Next.js project
 - [ ] Install Web3 + AA dependencies (ethers, userop.js)
-- [ ] Create wallet connection (EOA)
-- [ ] Implement smart account creation flow
+- [x] Create wallet connection (EOA)
+- [x] Implement smart account creation flow
 - [ ] Build UserOperation builder
 - [ ] Integrate bundler service (Stackup/Alchemy)
 - [ ] Create gasless transaction demo
