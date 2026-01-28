@@ -3,10 +3,19 @@
 import React from 'react';
 import { useAccount } from 'wagmi';
 import { useSmartAccount } from '@/hooks/useSmartAccount';
+import { useUserOp } from '@/hooks/useUserOp';
 
 export default function Dashboard() {
   const { address: eoaAddress, isConnected } = useAccount();
   const { smartAccountAddress, isDeployed, createAccount, isLoading } = useSmartAccount();
+  const { sendTransaction, loading: txLoading, txHash, error: txError } = useUserOp();
+
+  const handleTestTransaction = async () => {
+    // Send 0 ETH to self as a test
+    if (smartAccountAddress) {
+      await sendTransaction(smartAccountAddress, 0n, "0x");
+    }
+  };
 
   if (!isConnected) {
     return (
@@ -67,9 +76,38 @@ export default function Dashboard() {
           <p className="text-sm text-white/60 mb-6 max-w-[240px]">
             Once deployed, you can send transactions without paying any native gas fees.
           </p>
-          <button className="text-sm font-bold text-white/40 cursor-not-allowed">
-            Transactions available soon
+          <button
+            onClick={handleTestTransaction}
+            disabled={!isDeployed || txLoading}
+            className={`text-sm font-bold py-2 px-6 rounded-lg transition-all ${
+              !isDeployed 
+                ? "text-white/40 cursor-not-allowed bg-white/5" 
+                : "bg-blue-600 text-white hover:bg-blue-500"
+            }`}
+          >
+            {txLoading ? "Sending..." : "Send Test Transaction (0 ETH)"}
           </button>
+          
+          {txHash && (
+            <div className="mt-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg max-w-full overflow-hidden">
+              <p className="text-xs text-green-400 font-bold mb-1">Transaction Sent!</p>
+              <a 
+                href={`https://basescan.org/tx/${txHash}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs text-green-500/80 hover:text-green-400 truncate block underline"
+              >
+                View on BaseScan
+              </a>
+            </div>
+          )}
+
+          {txError && (
+            <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg max-w-full">
+              <p className="text-xs text-red-400 font-bold mb-1">Error</p>
+              <p className="text-xs text-red-500/80 break-words">{txError}</p>
+            </div>
+          )}
         </section>
       </div>
     </div>
