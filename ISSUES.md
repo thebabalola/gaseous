@@ -3,6 +3,7 @@
 ## 🚀 High Priority
 
 ### Smart Contracts (Completed)
+
 - [x] Write comprehensive tests for GaslessBasePaymaster
 - [x] Write tests for SimpleAccount
 - [x] Write tests for SimpleAccountFactory
@@ -13,16 +14,18 @@
 - [x] Security audit preparation (Initial)
 
 ### Frontend
+
 - [ ] Set up Next.js project
-- [ ] Install Web3 + AA dependencies (ethers, userop.js)
+- [x] Install Web3 + AA dependencies (ethers, userop.js)
 - [x] Create wallet connection (EOA)
 - [x] Implement smart account creation flow
 - [x] Build UserOperation builder
 - [x] Integrate bundler service (Stackup/Alchemy)
-- [ ] Create gasless transaction demo
+- [ ] Create gasless transaction demo  ➜ 🔧 **IN PROGRESS** (live demo at `/demo/gasless` — pushed to `main`)
 - [ ] Build sponsor dashboard
 
 ### Infrastructure
+
 - [ ] Set up bundler service
 - [ ] Configure RPC endpoints
 - [ ] Set up monitoring/analytics
@@ -31,6 +34,7 @@
 ## 🎨 UI/UX Features
 
 ### User Interface
+
 - [ ] Landing page explaining gas sponsorship
 - [ ] Wallet connection flow
 - [ ] Smart account creation wizard
@@ -39,6 +43,7 @@
 - [ ] Gas savings calculator
 
 ### Sponsor Dashboard
+
 - [ ] Spending analytics
 - [ ] Daily/monthly usage charts
 - [ ] Whitelist management
@@ -46,12 +51,14 @@
 - [ ] Real-time monitoring
 
 ### Demo Features
+
 - [ ] "Send tokens without gas" demo
 - [ ] NFT minting demo
 - [ ] DeFi interaction demo
 - [ ] Comparison: with vs without paymaster
 
 ## 🔒 Security & Testing
+
 - [x] Unit tests for all contracts
 - [x] Integration tests with EntryPoint
 - [ ] Bundler integration tests
@@ -61,6 +68,7 @@
 - [x] Signature validation tests
 
 ## 📚 Documentation
+
 - [ ] Smart contract API documentation
 - [ ] Integration guide for developers
 - [ ] User guide for gasless transactions
@@ -72,12 +80,14 @@
 ## 🌟 Feature Ideas
 
 ### Phase 1 (MVP)
+
 - [ ] Basic paymaster with spending limits
 - [ ] Simple account creation
 - [ ] Gasless transaction demo
 - [ ] Sponsor dashboard
 
 ### Phase 2 (Enhanced)
+
 - [ ] Multi-paymaster support
 - [ ] Conditional sponsorship rules
 - [ ] Session keys for recurring transactions
@@ -85,6 +95,7 @@
 - [ ] Social recovery
 
 ### Phase 3 (Advanced)
+
 - [ ] Cross-chain account abstraction
 - [ ] Subscription-based sponsorship
 - [ ] DAO-controlled paymaster
@@ -93,11 +104,13 @@
 - [ ] African payment rails integration
 
 ## 🐛 Known Issues
+
 - None yet
 
 ## 💡 African Market Focus
 
 ### Onboarding Features
+
 - [ ] Multi-language support (English, Swahili, Yoruba, etc.)
 - [ ] Local currency display
 - [ ] SMS-based account recovery
@@ -105,6 +118,7 @@
 - [ ] Offline transaction signing
 
 ### Partnership Opportunities
+
 - [ ] NGO sponsorship programs
 - [ ] Microfinance integration
 - [ ] Remittance corridors
@@ -112,6 +126,7 @@
 - [ ] Local businesses
 
 ## 🎯 Metrics to Track
+
 - [ ] Total gas sponsored
 - [ ] Number of gasless transactions
 - [ ] Active users
@@ -121,6 +136,7 @@
 - [ ] Geographic distribution
 
 ## 🔧 Technical Debt
+
 - [ ] Optimize gas costs in contracts
 - [ ] Improve error handling
 - [ ] Add more comprehensive events
