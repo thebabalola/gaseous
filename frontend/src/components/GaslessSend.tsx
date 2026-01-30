@@ -2,8 +2,17 @@
 
 import React, { useState } from "react";
 import { useAccount } from "wagmi";
-import { parseEther } from "ethers";
-import { useUserOp } from "@/hooks/useUserOp";
+import type { Hex } from "viem";
+import { useUserOp } from "../hooks/useUserOp";
+
+function parseEtherToBigInt(amount: string): bigint {
+  // Avoid floating point issues by handling as string
+  const parts = amount.split(".");
+  const whole = BigInt(parts[0] || "0");
+  const frac = (parts[1] || "").padEnd(18, "0").slice(0, 18);
+  const fracBig = BigInt(frac);
+  return whole * 1000000000000000000n + fracBig;
+}
 
 export function GaslessSend() {
   const { address } = useAccount();
@@ -15,11 +24,13 @@ export function GaslessSend() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const value = parseEther(amount).toBigInt();
-      await sendTransaction(to as any, value, "0x");
-    } catch (err: any) {
+      if (!to || !to.startsWith("0x") || to.length !== 42) throw new Error("Invalid to address");
+      const value = parseEtherToBigInt(amount);
+      await sendTransaction(to as unknown as Hex, value, "0x" as Hex);
+    } catch (err: unknown) {
       console.error(err);
-      alert(err.message || "Invalid input");
+      const e = err as Error;
+      alert(e?.message ?? "Invalid input");
     }
   };
 
@@ -63,7 +74,14 @@ export function GaslessSend() {
             {loading ? "Sending…" : "Send gasless"}
           </button>
           {txHash && (
-            <a className="text-sm text-green-400" href={`https://base.blockexplorer.com/tx/${txHash}`} target="_blank" rel="noreferrer">View tx</a>
+            <a
+              className="text-sm text-green-400"
+              href={`https://base.blockexplorer.com/tx/${txHash}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              View tx
+            </a>
           )}
         </div>
 
